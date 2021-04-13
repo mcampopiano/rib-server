@@ -1,0 +1,9 @@
+[
+    {
+        "model": "ripapi.client",
+        "pk": 1,
+        "fields": {
+            "name": "Sam Blackwell"
+        }
+    }
+]
