@@ -1,19 +1,19 @@
 [
     {
-        "model": "ripapi.client",
+        "model": "ribapi.client",
         "pk": 1,
         "fields": {
-            "user": 1,
+            "user": "iskdjf;iske80",
             "name": "John Doe",
             "claim_number": "25d657g5s3f",
             "contractor": 1
         }
     },
     {
-        "model": "ripapi.client",
+        "model": "ribapi.client",
         "pk": 2,
         "fields": {
-            "user": 1,
+            "user": "iskdjf;iske80",
             "name": "Molly Sue",
             "claim_number": "as;ldkfj",
             "contractor": 1

@@ -1,6 +1,6 @@
 [
     {
-        "model": "ripapi.client",
+        "model": "ribapi.contractor",
         "pk": 1,
         "fields": {
             "name": "Sam Blackwell"
