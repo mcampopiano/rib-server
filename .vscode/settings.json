@@ -6,5 +6,6 @@
             "name": "rib db",
             "database": "db.sqlite3"
         }
-    ]
+    ],
+    "python.pythonPath": "/home/mcamp/.local/share/virtualenvs/rib-server-l8_aaa3N/bin/python"
 }
