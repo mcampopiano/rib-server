@@ -12,7 +12,8 @@ from ribapi.models import Client, Contractor
 
 class Clients(ViewSet):
     def list(self, request):
-        clients = Client.objects.all()
+        user = Token.objects.get(user = request.auth.user)
+        clients = Client.objects.filter(user=user)
 
     
         serializer = ClientSerializer(clients, many=True, context={'request': request})
