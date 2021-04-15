@@ -17,10 +17,11 @@ from django.conf.urls import include
 from django.urls import path
 from ribapi.views import register_user, login_user
 from rest_framework import routers
-from ribapi.views import Clients
+from ribapi.views import Clients, Contractors
 
 router = routers.DefaultRouter(trailing_slash=False)
 router.register(r'clients', Clients, 'client')
+router.register(r'contractors', Contractors, 'contractor')
 
 urlpatterns = [
      path('', include(router.urls)),
