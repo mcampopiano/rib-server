@@ -44,4 +44,4 @@ class ClientSerializer(serializers.ModelSerializer):
     contractor = ContractorSerializer()
     class Meta:
         model = Client
-        fields = ('name', 'claim_number', 'contractor')
+        fields = ('id', 'name', 'claim_number', 'contractor')

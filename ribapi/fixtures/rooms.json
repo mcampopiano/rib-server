@@ -1,0 +1,19 @@
+[
+    {
+        "model": "ribapi.room",
+        "pk": 1,
+        "fields": {
+            "client": 1,
+            "name": "living room",
+            "air_movers_min": 2,
+            "air_movers_max": 5,
+            "dehumidifier_min_size": "regular",
+            "dehumidifier_max_size": "large",
+            "width": 10,
+            "height": 10,
+            "length": 10,
+            "ceiling_damage": false,
+            "damage_above_two_feet": false
+        }
+    }
+]

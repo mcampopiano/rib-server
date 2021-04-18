@@ -9,3 +9,4 @@ python3 manage.py loaddata users
 python3 manage.py loaddata tokens
 python3 manage.py loaddata contractors
 python3 manage.py loaddata clients
+python3 manage.py loaddata rooms
