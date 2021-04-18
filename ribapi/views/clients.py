@@ -1,4 +1,5 @@
 from django.core.exceptions import ValidationError
+from django.http.response import HttpResponse
 from rest_framework import status
 from django.http import HttpResponseServerError
 from rest_framework import viewsets
@@ -17,7 +18,22 @@ class Clients(ViewSet):
 
     
         serializer = ClientSerializer(clients, many=True, context={'request': request})
-        return Response(serializer.data)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+    def create(self, request):
+        user = Token.objects.get(user = request.auth.user)
+        contractor = Contractor.objects.get(pk = request.data['contractorId'])
+        client = Client()
+        client.name = request.data['name']
+        client.claim_number = request.data['claimNumber']
+        client.user = user
+        client.contractor = contractor
+        client.save()
+        
+        serializer = ClientSerializer(client, many=False, context={'request': request})
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+
     
 class ContractorSerializer(serializers.ModelSerializer):
     class Meta:
