@@ -16,7 +16,16 @@ class Contractors(ViewSet):
 
         serializer = ContractorSerializer(contractors, many=True, context={'request': request})
 
-        return Response(serializer.data)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+    
+    def create(self, request):
+        contractor = Contractor()
+        contractor.name = request.data['name']
+
+        contractor.save()
+        serializer = ContractorSerializer(contractor, many=False, context={'request': request})
+
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
 
 
 class ContractorSerializer(serializers.ModelSerializer):
