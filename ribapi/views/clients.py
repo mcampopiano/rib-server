@@ -22,7 +22,7 @@ class Clients(ViewSet):
 
     def create(self, request):
         user = Token.objects.get(user = request.auth.user)
-        contractor = Contractor.objects.get(pk = request.data['contractorId'])
+        contractor = Contractor.objects.get(name = request.data['contractor'])
         client = Client()
         client.name = request.data['name']
         client.claim_number = request.data['claimNumber']
