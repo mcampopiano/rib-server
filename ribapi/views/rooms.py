@@ -9,6 +9,7 @@ from rest_framework import status
 from rest_framework.authtoken.models import Token
 from ribapi import models
 from ribapi.models import Room, Client
+import math
 
 class Rooms(ViewSet):
     def list(self, request):
@@ -16,6 +17,25 @@ class Rooms(ViewSet):
 
         serializer = RoomSerializer(rooms, many=True, context={'request': request})
         return Response(serializer.data, status=status.HTTP_200_OK)
+
+    def create(self, request):
+        room = Room()
+        sq = request.data['length'] * request.data['width']
+        air_movers = 1
+
+        room.name = request.data['name']
+        room.width = request.data['width']
+        room.length = request.data['length']
+        room.air_movers_min = air_movers + math.ceil(sq/70)
+        room.air_movers_max = air_movers + math.ceil(sq/50)
+
+        room.dehumidifier_min_size = None
+        room.dehumidifier_max_size = None
+        room.ceiling_damage = False
+        room.damage_above_two_feet = False
+
+        serializer = RoomSerializer(room, many=False, context={'request': request})
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
 
 
 class RoomSerializer(serializers.ModelSerializer):
