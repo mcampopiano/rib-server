@@ -20,6 +20,12 @@ class Clients(ViewSet):
         serializer = ClientSerializer(clients, many=True, context={'request': request})
         return Response(serializer.data, status=status.HTTP_200_OK)
 
+    def retrieve(self, request, pk=None):
+        client = Client.objects.get(pk=pk)
+
+        serializer = ClientSerializer(client, many=False, context={'request': request})
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
     def create(self, request):
         user = Token.objects.get(user = request.auth.user)
         contractor = Contractor.objects.get(name = request.data['contractor'])
