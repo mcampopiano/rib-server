@@ -9,7 +9,7 @@ from rest_framework import serializers
 from rest_framework import status
 from rest_framework.authtoken.models import Token
 from ribapi import models
-from ribapi.models import Client, Contractor
+from ribapi.models import Client, Contractor, Room
 
 class Clients(ViewSet):
     def list(self, request):
@@ -35,6 +35,7 @@ class Clients(ViewSet):
 
 
     
+
 class ContractorSerializer(serializers.ModelSerializer):
     class Meta:
         model = Contractor
@@ -44,4 +45,5 @@ class ClientSerializer(serializers.ModelSerializer):
     contractor = ContractorSerializer()
     class Meta:
         model = Client
-        fields = ('id', 'name', 'claim_number', 'contractor')
+        fields = ('id', 'name', 'claim_number', 'contractor', 'rooms')
+        depth=1

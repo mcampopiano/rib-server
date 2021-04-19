@@ -1,7 +1,7 @@
 from django.db import models
 
 class Room(models.Model):
-    client = models.ForeignKey("Client", on_delete=models.CASCADE)
+    client = models.ForeignKey("Client", on_delete=models.CASCADE, related_name='rooms')
     name = models.CharField(max_length=50)
     air_movers_min = models.IntegerField()
     air_movers_max = models.IntegerField()
