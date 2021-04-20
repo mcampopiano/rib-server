@@ -28,23 +28,28 @@ class Rooms(ViewSet):
         room.width = request.data['width']
         room.length = request.data['length']
         room.height = request.data['height']
+        room.ceiling_damage = request.data['ceilingDamage']
+        room.damage_above_two_feet = request.data['damageAboveTwoFeet']
         room.air_movers_min = air_movers + math.ceil(sq/70)
         room.air_movers_max = air_movers + math.ceil(sq/50)
 
         # Use if damage above two feet on the walls
-        if len(request.data['walls']) > 0:
+        if room.damage_above_two_feet and len(request.data['walls']) > 0:
             sq_walls = 0
             for wall in request.data['walls']:
                 height = wall['height'] - 2
                 sq_walls = sq_walls + (height * wall['length'])
             room.air_movers_min = room.air_movers_min + math.ceil(sq_walls/150)
-            room.air_movers_max = room.air_movers_min + math.ceil(sq_walls/100)
-            print(sq_walls)
+            room.air_movers_max = room.air_movers_max + math.ceil(sq_walls/100)
+
+        # Use if ceiling damage
+        if room.ceiling_damage:
+            room.air_movers_min = room.air_movers_min + math.ceil(sq/150)
+            room.air_movers_max = room.air_movers_max + math.ceil(sq/100)
+        
 
         room.dehumidifier_min_size = None
         room.dehumidifier_max_size = None
-        room.ceiling_damage = False
-        room.damage_above_two_feet = False
         # room.save()
 
         serializer = RoomSerializer(room, many=False, context={'request': request})
