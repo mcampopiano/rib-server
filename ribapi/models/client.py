@@ -5,4 +5,4 @@ class Client(models.Model):
     user = models.ForeignKey(Token, on_delete=models.CASCADE)
     name = models.CharField(max_length=50)
     claim_number = models.CharField(max_length=500)
-    contractor = models.ForeignKey("contractor", on_delete=models.CASCADE)
+    contractor = models.ForeignKey("contractor", on_delete=models.CASCADE, related_name='clients')
