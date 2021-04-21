@@ -31,5 +31,5 @@ class Contractors(ViewSet):
 class ContractorSerializer(serializers.ModelSerializer):
     class Meta:
         model = Contractor
-        fields = ('name', 'clients')
+        fields = ('id', 'name', 'clients')
         depth = 1
