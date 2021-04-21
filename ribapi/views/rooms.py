@@ -20,11 +20,13 @@ class Rooms(ViewSet):
 
     def create(self, request):
         room = Room()
+        client = Client.objects.get(pk=request.data['clientId'])
         sq = request.data['length'] * request.data['width']
         cf = sq * request.data['height']
         air_movers = 1
         PPD = 0
 
+        room.client = client
         room.name = request.data['name']
         room.width = request.data['width']
         room.length = request.data['length']
@@ -64,7 +66,7 @@ class Rooms(ViewSet):
         if room.ceiling_damage:
             room.air_movers_min = room.air_movers_min + math.ceil(sq/150)
             room.air_movers_max = room.air_movers_max + math.ceil(sq/100)
-        # room.save()
+        room.save()
 
         serializer = RoomSerializer(room, many=False, context={'request': request})
         return Response(serializer.data, status=status.HTTP_201_CREATED)
