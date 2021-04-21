@@ -27,8 +27,20 @@ class Contractors(ViewSet):
 
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
+    def retrieve(self, request, pk=None):
+        contractor = Contractor.objects.get(pk=pk)
+
+        serializer = ContractorSerializerWithClients(contractor, many=False, context={'request': request})
+
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
 
 class ContractorSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Contractor
+        fields = ('id', 'name')
+
+class ContractorSerializerWithClients(serializers.ModelSerializer):
     class Meta:
         model = Contractor
         fields = ('id', 'name', 'clients')
