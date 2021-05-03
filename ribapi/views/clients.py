@@ -38,6 +38,18 @@ class Clients(ViewSet):
         
         serializer = ClientSerializer(client, many=False, context={'request': request})
         return Response(serializer.data, status=status.HTTP_201_CREATED)
+    
+    def update(self, request, pk=None):
+        client = Client.objects.get(pk=pk)
+        user = client.user
+        contractor = Contractor.objects.get(name = request.data['contractor'])
+        client.name = request.data['name']
+        client.claim_number = request.data['claimNumber']
+        client.user = user
+        client.contractor = contractor
+        client.save()
+
+        return Response({}, status=status.HTTP_204_NO_CONTENT)
 
     def destroy(self, request, pk=None):
         client = Client.objects.get(pk=pk)
