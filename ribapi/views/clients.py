@@ -39,6 +39,12 @@ class Clients(ViewSet):
         serializer = ClientSerializer(client, many=False, context={'request': request})
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
+    def destroy(self, request, pk=None):
+        client = Client.objects.get(pk=pk)
+        client.delete()
+
+        return Response({}, status=status.HTTP_204_NO_CONTENT)
+
 
     
 
