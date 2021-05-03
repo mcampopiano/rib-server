@@ -18,7 +18,7 @@ class Rooms(ViewSet):
         serializer = RoomSerializer(rooms, many=True, context={'request': request})
         return Response(serializer.data, status=status.HTTP_200_OK)
     
-    def delete(self, request, pk=None):
+    def destroy(self, request, pk=None):
         room = Room.objects.get(pk=pk)
         room.delete()
         return Response({}, status=status.HTTP_204_NO_CONTENT)
@@ -80,4 +80,4 @@ class Rooms(ViewSet):
 class RoomSerializer(serializers.ModelSerializer):
     class Meta:
         model=Room
-        fields=('name', 'width', 'height', 'length', 'air_movers_min', 'air_movers_max', 'dehumidifier_size', 'ceiling_damage', 'damage_above_two_feet')
+        fields=('id', 'name', 'width', 'height', 'length', 'air_movers_min', 'air_movers_max', 'dehumidifier_size', 'ceiling_damage', 'damage_above_two_feet')
