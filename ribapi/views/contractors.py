@@ -26,6 +26,13 @@ class Contractors(ViewSet):
         serializer = ContractorSerializer(contractor, many=False, context={'request': request})
 
         return Response(serializer.data, status=status.HTTP_201_CREATED)
+    
+    def update(self, request, pk=None):
+        contractor = Contractor()
+        contractor.name = request.data['name']
+
+        contractor.save()
+        return Response({}, status=status.HTTP_204_NO_CONTENT)
 
     def retrieve(self, request, pk=None):
         contractor = Contractor.objects.get(pk=pk)
