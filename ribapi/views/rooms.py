@@ -17,6 +17,11 @@ class Rooms(ViewSet):
 
         serializer = RoomSerializer(rooms, many=True, context={'request': request})
         return Response(serializer.data, status=status.HTTP_200_OK)
+    
+    def delete(self, request, pk=None):
+        room = Room.objects.get(pk=pk)
+        room.delete()
+        return Response({}, status=status.HTTP_204_NO_CONTENT)
 
     def create(self, request):
         room = Room()
