@@ -76,6 +76,59 @@ class Rooms(ViewSet):
         serializer = RoomSerializer(room, many=False, context={'request': request})
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
+    def update(self, request, pk=None):
+        room = Room.objects.get(pk=pk)
+        client = room.client
+        sq = request.data['length'] * request.data['width']
+        cf = sq * request.data['height']
+        air_movers = 1
+        PPD = 0
+
+        room.client = client
+        room.name = request.data['name']
+        room.width = request.data['width']
+        room.length = request.data['length']
+        room.height = request.data['height']
+        room.ceiling_damage = request.data['ceilingDamage']
+        room.damage_above_two_feet = request.data['damageAboveTwoFeet']
+        room.air_movers_min = air_movers + math.ceil(sq/70)
+        room.air_movers_max = air_movers + math.ceil(sq/50)
+
+        # Calculate size of dehumidifier
+        if request.data['class'] == 1:
+            PPD = cf / 100
+        elif request.data['class'] == 2:
+            PPD = cf / 50
+        elif request.data['class'] == 3 or request.data['class'] == 4:
+            PPD = cf / 40
+        
+        if PPD <= 69:
+            room.dehumidifier_size = "Standard"
+        elif PPD in range(70, 109):
+            room.dehumidifier_size = "Large"
+        elif PPD in range(110, 159):
+            room.dehumidifier_size = "XLarge"
+        else:
+            room.dehumidifier_size = "XXLarge"
+
+        # Use if damage above two feet on the walls
+        if room.damage_above_two_feet and len(request.data['walls']) > 0:
+            sq_walls = 0
+            for wall in request.data['walls']:
+                height = wall['height'] - 2
+                sq_walls = sq_walls + (height * wall['length'])
+            room.air_movers_min = room.air_movers_min + math.ceil(sq_walls/150)
+            room.air_movers_max = room.air_movers_max + math.ceil(sq_walls/100)
+
+        # Use if ceiling damage
+        if room.ceiling_damage:
+            room.air_movers_min = room.air_movers_min + math.ceil(sq/150)
+            room.air_movers_max = room.air_movers_max + math.ceil(sq/100)
+        room.save()
+
+        return Response({}, status=status.HTTP_204_NO_CONTENT)
+
+
 
 class RoomSerializer(serializers.ModelSerializer):
     class Meta:
