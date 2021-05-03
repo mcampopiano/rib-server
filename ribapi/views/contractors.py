@@ -34,6 +34,12 @@ class Contractors(ViewSet):
 
         return Response(serializer.data, status=status.HTTP_200_OK)
 
+    def destroy(self, request, pk=None):
+        contractor = Contractor.objects.get(pk=pk)
+        contractor.delete()
+
+        return Response({}, status=status.HTTP_204_NO_CONTENT)
+
 
 class ContractorSerializer(serializers.ModelSerializer):
     class Meta:
